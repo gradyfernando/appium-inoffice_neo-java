@@ -48,7 +48,7 @@ public class AndroidBaseTest extends AppiumUtils {
 		// Set context to WEBVIEW app
 		Set<String> contexts = driver.getContextHandles();
 		for (String context : contexts) {
-			// System.out.println("===> Get Context: " + context );
+			System.out.println("===> Get Context: " + context );
 			if (context.contains("WEBVIEW")) {
 				driver.context(context);
 				break;

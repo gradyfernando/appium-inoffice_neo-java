@@ -2,6 +2,7 @@ package co.id.gradyfernando.utils;
 
 import java.util.Map;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -64,6 +65,11 @@ public class AndroidActions extends AppiumUtils {
 									"direction", direction,
 									"percent", 0.2
 								));
+	}
+
+	public By parseElement(String tag, String classname, String text) {
+		By xpathElement = By.xpath("//"+tag+"[contains(@class,'"+classname+"') and normalize-space()='"+text+"']");
+		return xpathElement;
 	}
 	
 }

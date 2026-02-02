@@ -7,9 +7,16 @@ import co.id.gradyfernando.utils.AndroidActions;
 import io.appium.java_client.android.AndroidDriver;
 
 public class LoginPage extends AndroidActions {
-
+    
     public LoginPage(AndroidDriver driver) {
         super(driver);
+    }
+
+    public void changeCompanyCode() {
+		WebElement changeCompanyCodeButton = driver.findElement(
+			By.cssSelector("button.btn-link")
+		);
+        changeCompanyCodeButton.click();
     }
 
     public void setCompany(String companyCode) {

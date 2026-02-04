@@ -1,9 +1,11 @@
 package co.id.gradyfernando.utils;
 
+import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 
@@ -70,6 +72,35 @@ public class AndroidActions extends AppiumUtils {
 	public By parseElement(String tag, String classname, String text) {
 		By xpathElement = By.xpath("//"+tag+"[contains(@class,'"+classname+"') and normalize-space()='"+text+"']");
 		return xpathElement;
+	}
+
+	public WebElement scrollUntilTextFound(By locator) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+
+		for (int i = 0; i < 25; i++) {
+
+			// 1️⃣ Try to find element
+			List<WebElement> elements = driver.findElements(locator);
+			if (!elements.isEmpty()) {
+				WebElement el = elements.get(0);
+
+				js.executeScript(
+					"arguments[0].scrollIntoView({block:'center'});",
+					el
+				);
+				return el;
+			}
+
+			// 2️⃣ Scroll HTML root
+			js.executeScript(
+				"document.documentElement.scrollBy(0, window.innerHeight * 0.8);"
+			);
+
+			// 3️⃣ Allow DOM to render
+			try { Thread.sleep(300); } catch (Exception e) {}
+		}
+
+		throw new NoSuchElementException("Element not found after scrolling");
 	}
 	
 }

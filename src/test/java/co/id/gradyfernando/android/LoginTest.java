@@ -24,10 +24,11 @@ public class LoginTest extends AndroidBaseTest {
 	}
 
 	@Test
-	public void test_login_user() throws InterruptedException {
+	public void test_addSuratMasuk_fillAllField() throws InterruptedException {
 		LoginPage page = new LoginPage(driver);
 		page.setCompany("FrontendStaging");
 		page.setUserCredential("4dminIntegra", "admin123");
+		Thread.sleep(1000);
 
 		PilihAksesPage aksesPage = new PilihAksesPage(driver);
 		aksesPage.selectRole("Admin System");
@@ -44,7 +45,22 @@ public class LoginTest extends AndroidBaseTest {
 		TambahSuratMasukPage tambahSuratMasukPage = new TambahSuratMasukPage(driver);
 		LocalDate today = LocalDate.now();
 		tambahSuratMasukPage.setNomorSurat("ITS/AT-TEST/" + today.toString());
-		tambahSuratMasukPage.setTglSurat("");
+		tambahSuratMasukPage.selectFlatpickrDate("field_letter_date", "1");
+		tambahSuratMasukPage.selectFlatpickrDate("field_letter_received_at", "2");
+		tambahSuratMasukPage.selectPengirimByTypeAndDropDown("Bank BI");
+		tambahSuratMasukPage.setPerihal("Selamat datang di inOffice");
+		tambahSuratMasukPage.setContent("Selamat datang di inOffice");
+		tambahSuratMasukPage.searchUserPenerima("Jabatan", "FIRDAUS");
+		tambahSuratMasukPage.searchUserPenerima("Personal", "ABDA");
+		tambahSuratMasukPage.searchUserTembusan("Jabatan", "RUSMANTO");
+		tambahSuratMasukPage.setLampiranTidakDisertakan("Tidak memiliki lampiran");
+		tambahSuratMasukPage.setKeterangan("Created by: Automaton Test");
+		tambahSuratMasukPage.submitTambahSuratMasuk();
+
+		Thread.sleep(2000);
+		tambahSuratMasukPage.commitTambahSuratMasuk();
+
+		Thread.sleep(1000);
 	}
 
 	// @Test(dependsOnMethods = {"testGetContext"})

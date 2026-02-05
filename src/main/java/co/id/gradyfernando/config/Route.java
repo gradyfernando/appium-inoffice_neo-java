@@ -1,14 +1,38 @@
 package co.id.gradyfernando.config;
 
-public class Route {
-	public static final String LOGIN = "login";
-	public static final String USER_GET_AKSES = "getakses";
-	
-	public static final String GET_LIST_SURAT_MASUK = "getlistsuratmasuk";
-	public static final String GET_LIST_SURAT_KELUAR = "getlistsuratkeluar";
-	public static final String GET_LIST_DISPOSISI_MASUK = "getlistdisposisimasuk";
-	public static final String GET_LIST_DISPOSISI_KELUAR = "getlistdisposisikeluar";
-	public static final String GET_LIST_INFORMASI_MASUK = "getlistinformasimasuk";
-	public static final String GET_LIST_INFORMASI_KELUAR = "getlistinformasikeluar";
-	public static final String GET_LIST_DRAFT = "getlistdraft";
+import java.util.Collections;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+public enum Route {
+
+	Login("/login"),
+	Dashboard("/dashboard"),
+	AddSuratKeluar("/letter/outgoing-letter/create");
+
+
+	// 
+	private String name;
+    private static final Map<String, Route> ENUM_MAP;
+
+    Route(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+	static {
+        Map<String,Route> map = new ConcurrentHashMap<String, Route>();
+        for (Route instance : Route.values()) {
+            map.put(instance.getName().toLowerCase(),instance);
+        }
+        ENUM_MAP = Collections.unmodifiableMap(map);
+    }
+
+    public static Route get (String name) {
+        return ENUM_MAP.get(name.toLowerCase());
+    }
+
 }

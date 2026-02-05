@@ -74,33 +74,27 @@ public class AndroidActions extends AppiumUtils {
 		return xpathElement;
 	}
 
-	public WebElement scrollUntilTextFound(By locator) {
-		JavascriptExecutor js = (JavascriptExecutor) driver;
+    public WebElement scrollToId(String id) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
 
-		for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 20; i++) {
+            List<WebElement> els = driver.findElements(By.id(id));
+            if (!els.isEmpty()) {
+                js.executeScript(
+                    "arguments[0].scrollIntoView({block:'center'});",
+                    els.get(0)
+                );
+                return els.get(0);
+            }
 
-			// 1️⃣ Try to find element
-			List<WebElement> elements = driver.findElements(locator);
-			if (!elements.isEmpty()) {
-				WebElement el = elements.get(0);
+            js.executeScript(
+                "document.documentElement.scrollBy(0, window.innerHeight * 0.8);"
+            );
 
-				js.executeScript(
-					"arguments[0].scrollIntoView({block:'center'});",
-					el
-				);
-				return el;
-			}
+            try { Thread.sleep(300); } catch (Exception e) {}
+        }
 
-			// 2️⃣ Scroll HTML root
-			js.executeScript(
-				"document.documentElement.scrollBy(0, window.innerHeight * 0.8);"
-			);
-
-			// 3️⃣ Allow DOM to render
-			try { Thread.sleep(300); } catch (Exception e) {}
-		}
-
-		throw new NoSuchElementException("Element not found after scrolling");
-	}
+        throw new NoSuchElementException("field_attachments not found");
+    }
 	
 }

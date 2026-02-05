@@ -1,10 +1,7 @@
 package co.id.gradyfernando.pageObject;
 
-import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import co.id.gradyfernando.utils.AndroidActions;
@@ -112,7 +109,7 @@ public class TambahSuratMasukPage extends AndroidActions {
     }
 
     public void setLampiranTidakDisertakan(String alasan) throws InterruptedException {
-        scrollToAttachments();
+        scrollToId("field_attachments");
         Thread.sleep(1000);
         // scrollUntilTextFound("Lampiran sengaja tidak disertakan");
 
@@ -122,29 +119,6 @@ public class TambahSuratMasukPage extends AndroidActions {
         WebElement noteElement = driver.findElement(By.id("without_attachment_note"));
         noteElement.sendKeys(alasan);
         driver.hideKeyboard();
-    }
-
-    public WebElement scrollToAttachments() {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-
-        for (int i = 0; i < 20; i++) {
-            List<WebElement> els = driver.findElements(By.id("field_attachments"));
-            if (!els.isEmpty()) {
-                js.executeScript(
-                    "arguments[0].scrollIntoView({block:'center'});",
-                    els.get(0)
-                );
-                return els.get(0);
-            }
-
-            js.executeScript(
-                "document.documentElement.scrollBy(0, window.innerHeight * 0.8);"
-            );
-
-            try { Thread.sleep(300); } catch (Exception e) {}
-        }
-
-        throw new NoSuchElementException("field_attachments not found");
     }
 
     public void setKeterangan(String keterangan) {
